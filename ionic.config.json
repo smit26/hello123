@@ -1,0 +1,8 @@
+{
+  "name": "vector-vue",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
