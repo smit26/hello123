@@ -1,3 +1,4 @@
+import { WorkOrderPage } from './../work-order/work-order';
 import { DataProvider } from './../../providers/data/data';
 import { Api } from './../../providers/api/api';
 import { Component, ApplicationRef } from '@angular/core';
@@ -29,11 +30,6 @@ export class WorkOrdersPage {
       this.data.getWorkOrderPhotos(data)
       // this,appRef.tick()
     })
-
-    // this.data.workOrdersChange.subscribe(wos => {
-    //   this.data.workOrders = wos
-    //   this.appRef.tick()
-    // })
   }
 
   ionViewDidLoad() {
@@ -44,5 +40,11 @@ export class WorkOrdersPage {
   getWorkOrders() {
      this.data.getWorkOrders()  
   }
+
+
+  workOrderDetails(order) {
+    this.navCtrl.push(WorkOrderPage, { order: order });
+  }
+
 
 }

@@ -1,3 +1,50 @@
 page-work-order {
-
-}
+    .scroll-content {
+        background: #e2e2e2;
+      }
+  
+      .grey-button{
+          background-color: rgba(93, 100, 93, 0.705);
+          
+      }
+  
+  }
+  
+  .no-scroll .scroll-content{
+       overflow: hidden;
+  }
+  
+  .iconsize {
+          font-size: 20px; //Preferred size here
+      }
+  
+  img {
+    height: 70vh;
+    width: auto;
+    margin: auto;
+    display: block;
+    padding-top: 7px;
+  
+  }
+  
+  ion-slide{
+    max-height: 350px;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+    align-items: center;
+  
+  }
+  
+  ion-slides{
+      align-content: center;
+      text-align: center;
+      align-items: center;
+  }
+  
+  ion-card{
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 5px;
+  }
+  

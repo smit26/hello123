@@ -15,7 +15,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WorkOrderPage {
 
+  public order: any = {}
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    if(navParams.get("order")) {
+      this.order = navParams.get("order");  
+      if(this.order.GPSCOORDINATES.length > 0) {
+        this.order.GPSCOORDINATES = this.order.GPSCOORDINATES
+          .split(',') 
+          .map(coordinate => Number(coordinate).toFixed(6))
+          .join(',')
+      } 
+    } 
   }
 
   ionViewDidLoad() {

@@ -1,3 +1,4 @@
+import { WorkOrderPage } from './../pages/work-order/work-order';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -39,7 +40,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    VectorVue
+    VectorVue,
+    WorkOrderPage
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    VectorVue
+    VectorVue,
+    WorkOrderPage
   ],
   providers: [
     Api,
