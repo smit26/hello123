@@ -1,4 +1,5 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Camera } from '@ionic-native/camera';
@@ -12,6 +13,9 @@ import { Items } from '../mocks/providers/items';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { VectorVue } from './app.component';
+import { Network } from '@ionic-native/network';
+import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 import 'firebase/storage';
 import { AngularFireModule } from 'angularfire2';
@@ -40,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -66,7 +71,9 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataProvider,
-    DataProvider
+    Network,
+    File,
+    FileTransfer
   ]
 })
 export class AppModule { }

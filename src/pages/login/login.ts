@@ -1,3 +1,4 @@
+import { DataProvider } from './../../providers/data/data';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
@@ -21,7 +22,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+  public data: DataProvider) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
@@ -37,6 +39,7 @@ export class LoginPage {
 
   doLogin() {
     this.user.login(this.account).then((resp) => {
+      this.data.getWorkOrders()
       this.navCtrl.push(MainPage);
     }, (err) => {
       let toast = this.toastCtrl.create({
