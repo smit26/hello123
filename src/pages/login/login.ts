@@ -11,15 +11,11 @@ import { MainPage } from '../pages';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
   account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
+    email: 'almir@bind.ba',
+    password: '123456'
   };
 
-  // Our translated text strings
   private loginErrorString: string;
 
   constructor(public navCtrl: NavController,
@@ -30,15 +26,19 @@ export class LoginPage {
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
     })
+
+    this.user.isLoggedIn().subscribe(res => {
+      if (res && res.uid) {
+        this.navCtrl.push(MainPage);
+      }
+    })
+
   }
 
-  // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
+    this.user.login(this.account).then((resp) => {
       this.navCtrl.push(MainPage);
     }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
       let toast = this.toastCtrl.create({
         message: this.loginErrorString,
         duration: 3000,

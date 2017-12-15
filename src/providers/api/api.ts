@@ -1,12 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/**
- * Api is a generic REST Api handler. Set your API url first.
- */
 @Injectable()
 export class Api {
-  url: string = 'https://example.com/api/v1';
+  url: string = 'https://us-central1-vector-vue-work-manager.cloudfunctions.net';
 
   constructor(public http: HttpClient) {
   }
@@ -30,7 +27,8 @@ export class Api {
   }
 
   post(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.post(this.url + '/' + endpoint, body, reqOpts);
+    const headers =  new HttpHeaders().set('Content-Type', 'application/json')    
+    return this.http.post(this.url + '/' + endpoint, body, {headers: headers});
   }
 
   put(endpoint: string, body: any, reqOpts?: any) {

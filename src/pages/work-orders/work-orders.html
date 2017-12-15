@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Work Orders</ion-title>
+    <ion-buttons end>
+    <button ion-button *ngIf="isOnline" >
+      <ion-icon color="secondary" name="wifi"> </ion-icon>
+    </button>
+
+    <button ion-button *ngIf="!isOnline" >
+        <ion-icon color="warning" name="warning"> </ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="getWorkOrders(true, $event)">
+     <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card tappable *ngFor="let order of workOrders">
+
+    <ion-item>
+      <h2 class="card-heading">Order {{order.ORDERID}}</h2>
+      
+      <ion-badge *ngIf="order.status == 'Late'" item-end color="danger">Late</ion-badge>
+      <ion-badge *ngIf="order.status == 'Completed'" item-end color="secondary">Completed</ion-badge>
+      <ion-badge *ngIf="order.status == 'Due soon'" item-end color="warning">Due soon</ion-badge>
+      <ion-badge *ngIf="order.STARTTIME != '000000'" item-end color="secondary">Started</ion-badge>
+    </ion-item>
+    
+        
+    
+    <ion-card-content>
+      <ion-item>
+        <ion-thumbnail item-end *ngIf="!!order.photoLinks?.length">
+          <img [src]="order.photoLinks[0]">
+        </ion-thumbnail>
+        <ion-thumbnail item-end *ngIf="order.photoLinks?.length == 0">
+          <img src="assets/img/no_image.png">
+        </ion-thumbnail>
+        <h2>{{order.SHORTTEXT}}</h2>
+      </ion-item>
+      <ion-grid text-left>
+        <ion-row>
+          <ion-col col-6>
+            <ion-label stacked><strong>Planned Completion</strong></ion-label>
+            {{order.FINISHDATE | date: 'shortDate'}}
+          </ion-col>
+          <ion-col col-6>
+            <ion-label stacked><strong>Assigned To</strong></ion-label>
+            {{order.WORKCENTER}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <ion-label stacked><strong>Activity type</strong></ion-label>
+            {{order.ACTIVITYTYPE}}
+          </ion-col>
+          <ion-col col-6>
+            <ion-label stacked><strong>Equipment Rank</strong></ion-label>
+            {{order.ABCIND}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <ion-label stacked><strong>Equipment</strong></ion-label>
+            {{order.EQUIDESC}}
+          </ion-col>
+          <ion-col col-6>
+            <ion-label stacked><strong>Functional Location</strong></ion-label>
+            {{order.FUNCLOCDESC}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
