@@ -1,18 +1,31 @@
-<!--
-  Generated template for the OperationCategoryPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>operation-category</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+    <ion-navbar>
+      <ion-title>Operations for {{order.ORDERID}}</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content (class) = 'content' padding>
+  
+    <ion-grid>
+      <ion-row wrap>
+        <button ion-button (click) = 'showAll()' block >All Operations</button>
+        <ion-col col-6 *ngFor="let category of objectKeys(operationCategories)">
+  
+            <button ion-button (click) = 'showOperations(category)' block >{{category || 'UNCATEGORIZED'}}</button>
+          
+        </ion-col>
+      </ion-row>
+  
+      <ion-row *ngFor="let category of objectKeys(operationCategories)" >
+  
+        
+  
+      </ion-row>
+  
+    </ion-grid>
+  
+  </ion-content>
+  
