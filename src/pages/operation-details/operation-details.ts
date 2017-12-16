@@ -5,13 +5,6 @@ import { CameraOptions, Camera } from '@ionic-native/camera';
 import { DataProvider } from '../../providers/data/data';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
-/**
- * Generated class for the OperationDetailsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-operation-details',

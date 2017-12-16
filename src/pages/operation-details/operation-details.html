@@ -6,12 +6,12 @@
   
   <ion-content padding>
     <ion-card>
-      <ion-slides *ngIf="!!operation.photoLinks.length" pager="true" autoplay="true" centeredSlides="true" align>
+      <ion-slides *ngIf="!!operation.photoLinks?.length" pager="true" autoplay="true" centeredSlides="true" align>
         <ion-slide *ngFor="let photoLink of operation.photoLinks">
             <img src="{{photoLink}}"/>
         </ion-slide>
       </ion-slides>
-      <ion-slides *ngIf="operation.photoLinks.length == 0" pager="true" autoplay="true" centeredSlides="true" align>
+      <ion-slides *ngIf="operation.photoLinks?.length == 0" pager="true" autoplay="true" centeredSlides="true" align>
         <ion-slide>
           <img src="assets/img/no_image.png">
         </ion-slide>
@@ -45,21 +45,7 @@
               <ion-textarea ([ngModel])="operation.COMMENT" rows="2" placeholder="Enter text here"></ion-textarea>
           </ion-col>
         </ion-row>
-      <!-- <ion-row>
-        <ion-col col-6 >
-          <a ion-icon name="document" class="item" onclick="window.open(this.href, '_system', 'location=yes'); return false;">
-          Attached Documents
-          </a>
-        </ion-col>
-        <ion-col col-6 >
-          <a ion-icon name="document" class="item" href="#" (click)="getList('Notification History','N')">
-          History
-          </a>
-        </ion-col>
-      </ion-row>
-      <br> -->
       <ion-row>
-        <!--Thumbsup = Green button , thumbsdown = Red Button, alert = yellowbutton --> 
         <ion-col col-6><button [ngClass]="{'green-button': operation.STATE == 'G'}" ion-button block (click)="updateOperation(operation, true)" icon-left><ion-icon name="md-checkmark-circle"></ion-icon> OK </button></ion-col>
         <ion-col col-6 ><button [ngClass]="{'red-button': operation.STATE == 'NG'}" ion-button block (click)="updateOperation(operation, false)" icon-left><ion-icon name="md-close-circle"></ion-icon> NG </button></ion-col>
      
