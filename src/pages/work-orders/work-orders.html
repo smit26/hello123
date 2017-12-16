@@ -22,10 +22,10 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-refresher (ionRefresh)="getWorkOrders(true, $event)">
+  <ion-refresher (ionRefresh)="getWorkOrders($event)">
      <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-card tappable *ngFor="let order of data.workOrders" (click)="workOrderDetails(order)">
+  <ion-card tappable *ngFor="let order of data.workOrders " (click)="workOrderDetails(order)">
 
     <ion-item>
       <h2 class="card-heading">Order {{order.ORDERID}}</h2>

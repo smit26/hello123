@@ -139,13 +139,14 @@ export class DataProvider {
   }
 
   getWorkOrders() {
-    this.loginToAws({username: "almir@bind.ba", password: "12345678987654321"})  
+    this.loginToAws({username: "smit1", password: "smit123"})  
     .subscribe(tokens => {
+      console.log(tokens)
       const token = tokens.json().tokens.idToken.jwtToken
       localStorage.setItem('token', token)
       this.headers.delete('Authorization')
       this.headers.append('Authorization', token)
-      this.api.post('refreshWorkOrders', {token: token}).subscribe(data => console.log(data))  
+      this.api.post('refreshWorkOrders', {token: token, plannerGroup: 'P2G'}).subscribe(data => console.log(data))  
     }, err => console.log(err))
   }
 
@@ -164,7 +165,9 @@ export class DataProvider {
       wo.status = this.getWorkOrderStatus(wo)
 
       // const maint = maintenancePhotos.filter(photo => photo.maintPlanId == wo.MAINTPLAN) || []  
-      // wo.maintenancePhotos = !! maint.length ? maint[0].photos : []          
+      // wo.maintenancePhotos = !! maint.length ? maint[0].photos : []    
+      //temp 
+      wo.maintenancePhotos = []      
 
       if(!wo.photos) wo.photos = []          
       wo.photos = wo.photos.concat(wo.maintenancePhotos)                    
@@ -201,9 +204,18 @@ export class DataProvider {
       }) 
       console.log('sorted  filtered' )
       // this.workOrdersChange.emit(this.workOrders) 
+      workOrders = sortBy(workOrders, 'ORDERID')
+      console.log(workOrders)
       this.workOrders = workOrders
       // this.appRef.tick()
     }) 
+  }
+
+  updateWorkOrder(wo) {
+    console.log('update Wo' ,wo)
+    wo.isChanged = true
+    const woDocument = this.afs.doc<any>(`workOrders/${wo.id}`).ref;
+    woDocument.update(wo)  
   }
 
 

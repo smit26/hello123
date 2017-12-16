@@ -1,3 +1,6 @@
+import { OperationPage } from './../pages/operation/operation';
+import { OperationDetailsPage } from './../pages/operation-details/operation-details';
+import { OperationCategoryPage } from './../pages/operation-category/operation-category';
 import { WorkOrderPage } from './../pages/work-order/work-order';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -17,6 +20,7 @@ import { VectorVue } from './app.component';
 import { Network } from '@ionic-native/network';
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import 'firebase/storage';
 import { AngularFireModule } from 'angularfire2';
@@ -41,7 +45,10 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     VectorVue,
-    WorkOrderPage
+    WorkOrderPage,
+    OperationCategoryPage,
+    OperationDetailsPage,
+    OperationPage
   ],
   imports: [
     BrowserModule,
@@ -63,7 +70,10 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     VectorVue,
-    WorkOrderPage
+    WorkOrderPage,
+    OperationCategoryPage,
+    OperationDetailsPage,
+    OperationPage
   ],
   providers: [
     Api,
@@ -76,7 +86,8 @@ export function createTranslateLoader(http: HttpClient) {
     DataProvider,
     Network,
     File,
-    FileTransfer
+    FileTransfer,
+    Geolocation
   ]
 })
 export class AppModule { }

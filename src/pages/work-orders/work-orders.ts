@@ -37,7 +37,9 @@ export class WorkOrdersPage {
     
   }
 
-  getWorkOrders() {
+  getWorkOrders(refresher) {
+    if(refresher) refresher.complete()      
+
      this.data.getWorkOrders()  
   }
 
