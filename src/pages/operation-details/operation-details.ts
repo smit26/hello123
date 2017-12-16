@@ -1,8 +1,7 @@
 import { File } from '@ionic-native/file';
-import { Component } from '@angular/core';
+import { Component, ApplicationRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CameraOptions, Camera } from '@ionic-native/camera';
-import { ApplicationRef } from '@angular/core/src/application_ref';
 import { DataProvider } from '../../providers/data/data';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
