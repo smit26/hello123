@@ -1,3 +1,14 @@
-page-operation-details {
+page-operation-detail {
 
+  .red-button{
+      background-color: red;
+  }
+
+  .green-button{
+      background-color: green;
+  }
+
+}
+.no-scroll .scroll-content{
+  overflow: hidden;
 }

@@ -2,7 +2,7 @@ import { WorkOrderPage } from './../work-order/work-order';
 import { DataProvider } from './../../providers/data/data';
 import { Api } from './../../providers/api/api';
 import { Component, ApplicationRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,7 +16,7 @@ export class WorkOrdersPage {
   public workOrdersCollection: Observable<any[]> 
   public isOnline: boolean = false
 
-  constructor(public data: DataProvider, public navCtrl: NavController, public appRef: ApplicationRef, public db: AngularFirestore, public navParams: NavParams, public api: Api) {
+  constructor(private loadingCtrl: LoadingController, public data: DataProvider, public navCtrl: NavController, public appRef: ApplicationRef, public db: AngularFirestore, public navParams: NavParams, public api: Api) {
     this.workOrdersCollection = db.collection('workOrders').snapshotChanges()
     .map(actions => {
       return actions.map(a => {
@@ -27,6 +27,7 @@ export class WorkOrdersPage {
     });
     this.workOrdersCollection.subscribe(data => {
       // this.data.workOrders = data
+      // this.loadingCtrl.
       this.data.getWorkOrderPhotos(data)
       // this,appRef.tick()
     })
