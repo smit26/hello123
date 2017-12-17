@@ -6,6 +6,8 @@ import * as moment from 'moment'
 import { Geolocation } from '@ionic-native/geolocation';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ModalStartDocPage } from '../modal-start-doc/modal-start-doc'
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
 
 @IonicPage()
 @Component({
@@ -13,9 +15,17 @@ import { ModalStartDocPage } from '../modal-start-doc/modal-start-doc'
   templateUrl: 'work-order.html',
 })
 export class WorkOrderPage {
-
+  public options: CameraOptions = {
+    quality: 50,
+    correctOrientation: true,
+    targetHeight: 1080,
+    targetWidth: 1920,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+  }
   public order: any = {}
-  constructor(public data: DataProvider, public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
+  constructor(public camera: Camera, public file: File, public data: DataProvider, public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
     if(navParams.get("order")) {
       this.order = navParams.get("order");  
       if(this.order.GPSCOORDINATES.length > 0) {
@@ -77,5 +87,32 @@ export class WorkOrderPage {
     });
     alert.present();
   }
+
+  takePicture() {
+
+
+    const photoFileName = this.data.createPhotoFileName(this.order.ORDERID);
+    this.camera.getPicture(this.options).then(imageURI => {
+      let originalPath = imageURI.substring(0, imageURI.lastIndexOf("/")+1);
+      let originalFileName = imageURI.substring(imageURI.lastIndexOf("/")+1, imageURI.length);
+      return Promise.resolve({originalPath, originalFileName})
+    })
+    .then(({originalPath, originalFileName}) => this.file.copyFile(originalPath, originalFileName, this.file.dataDirectory, photoFileName))    
+    .then(entry => {
+      if(!this.order.photoLinks) Object.assign(this.order, {photoLinks: []}) //workOrder.photoLinks = []
+      if(!this.order.photos) Object.assign(this.order, {photos: []}) // workOrder.photos = []
+      this.order.photos.push({operationId: null, name: photoFileName})
+      this.order.photoLinks.push(this.data.normalizeURL(this.file.dataDirectory) + photoFileName)
+      this.order.isChanged = true        
+      this.data.updateWorkOrder(this.order)
+      if(this.data.getNetworkStatus()) {
+        this.data.uploadOfflinePhoto(photoFileName, 'image/jpeg')
+      }
+      console.log('photo added')
+    })
+    .catch(err => console.log(err))
+
+  }
+
 
 }

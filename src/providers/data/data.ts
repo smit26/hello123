@@ -82,12 +82,22 @@ export class DataProvider {
     };
 
     const fileTransfer = this.transfer.create();
-    this.getUploadLink(fileName)
+    this.loginToAws({username: "smit1", password: "smit123"})  
+    .subscribe(tokens => {
+      console.log(tokens)
+      const token = tokens.json().tokens.idToken.jwtToken
+      localStorage.setItem('token', token)
+      console.log('token: ', token)
+      this.headers.delete('Authorization')
+      this.headers.append('Authorization', token)
+      this.getUploadLink(fileName)
       .subscribe(result => {
         fileTransfer.upload(this.file.dataDirectory + fileName, result.json().body, options) 
           .then(success => console.log('file uploaded'))
           .catch(err => console.log('upload failed ', err))
       })
+    })
+
   }
 
   getDownloadLink(fileName) {
