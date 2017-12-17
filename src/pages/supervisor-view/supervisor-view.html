@@ -1,0 +1,52 @@
+
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Supervisor View</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list  no-lines>
+  <ion-list-header>
+  Orders
+  </ion-list-header>
+  <ion-item text-center>
+    <ion-row>
+      <ion-col col-6>
+            <button ion-button class="dashboard-button" color="danger" (click)="getList('Late Orders', late)" large>
+              Late
+              <ion-badge class="big-badge" color="danger" item-end>{{late.length}}</ion-badge>
+            </button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button class="dashboard-button" color="primary" (click)="getList('In progress Orders', inProgress)"   large>
+            In progress :
+          <ion-badge class="big-badge" color="primary" item-end>{{inProgress.length}}</ion-badge>
+        </button>
+      </ion-col>
+      </ion-row>
+      <ion-row>
+      <ion-col col-6>
+        <button ion-button  class="dashboard-button" color="primary" (click)="getList('Open Orders', open)" large>
+          Open :
+          <ion-badge class="big-badge" color="primary" item-end>{{open.length}}</ion-badge>
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button  class="dashboard-button" color="primary" (click)="getList('Closed Orders', close)" large>
+          Closed :
+          <ion-badge class="big-badge" color="primary" item-end>{{close.length}}</ion-badge>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+
+  <ion-item text-center>
+
+  </ion-item>
+  </ion-list>
+</ion-content>
