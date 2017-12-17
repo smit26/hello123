@@ -67,7 +67,9 @@ export class OperationDetailsPage {
       // .then(workOrders => Promise.resolve(workOrders.filter(workOrder => workOrder.ORDERID == this.order.ORDERID)[0]))
       // .then(workOrder => {
         if(!this.order.photoLinks) this.order.photoLinks = []
-        if(!this.order.photoLinks.photos) this.order.photoLinks.photos = []
+        if(!this.order.photos) this.order.photos = []
+        if(!this.operation.photoLinks) this.operation.photoLinks = []
+        if(!this.operation.photos) this.operation.photos = []
         this.order.photos.push({operationId: this.operation.ACTIVITY, name: photoFileName})
         this.order.photoLinks.push(this.data.normalizeURL(this.file.dataDirectory) + photoFileName)
         this.operation.photos.push({operationId: this.operation.ACTIVITY, name: photoFileName})
