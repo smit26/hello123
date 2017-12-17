@@ -2,6 +2,7 @@ import { OperationPage } from './../pages/operation/operation';
 import { OperationDetailsPage } from './../pages/operation-details/operation-details';
 import { OperationCategoryPage } from './../pages/operation-category/operation-category';
 import { WorkOrderPage } from './../pages/work-order/work-order';
+import { ModalStartDocPage } from './../pages/modal-start-doc/modal-start-doc';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -21,12 +22,14 @@ import { Network } from '@ionic-native/network';
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { DocumentViewer } from '@ionic-native/document-viewer';
 import 'firebase/storage';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { DataProvider } from '../providers/data/data';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
+
 
 export const firebaseConfig  = {
   apiKey: "AIzaSyBMaZFLQ4hQmaJOP_LUMW0bvkcJx9UA9Mk",
@@ -48,7 +51,9 @@ export function createTranslateLoader(http: HttpClient) {
     WorkOrderPage,
     OperationCategoryPage,
     OperationDetailsPage,
-    OperationPage
+    OperationPage,
+    ModalStartDocPage,
+    PdfViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,8 @@ export function createTranslateLoader(http: HttpClient) {
     WorkOrderPage,
     OperationCategoryPage,
     OperationDetailsPage,
-    OperationPage
+    OperationPage,
+    ModalStartDocPage
   ],
   providers: [
     Api,
@@ -87,7 +93,8 @@ export function createTranslateLoader(http: HttpClient) {
     Network,
     File,
     FileTransfer,
-    Geolocation
+    Geolocation,
+    DocumentViewer
   ]
 })
 export class AppModule { }

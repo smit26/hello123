@@ -1,11 +1,11 @@
 import { OperationCategoryPage } from './../operation-category/operation-category';
 import { DataProvider } from './../../providers/data/data';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import * as moment from 'moment'
 import { Geolocation } from '@ionic-native/geolocation';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
-
+import { ModalStartDocPage } from '../modal-start-doc/modal-start-doc'
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 export class WorkOrderPage {
 
   public order: any = {}
-  constructor(public data: DataProvider, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
+  constructor(public data: DataProvider, public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
     if(navParams.get("order")) {
       this.order = navParams.get("order");  
       if(this.order.GPSCOORDINATES.length > 0) {
@@ -30,9 +30,21 @@ export class WorkOrderPage {
   ionViewDidLoad() {
   }
 
+  onAckModal() {
+
+  }
+
   startTracking() {
     console.log('start tracking')
     // this.order.GPSCOORDINATES = `${resp.coords.latitude.toFixed(6)},${resp.coords.longitude.toFixed(6)}`
+
+    if(this.order.ACTIVITYTYPE == 'FUL'){
+      if(this.order.documentUrl != ''){
+        let modal = this.modalCtrl.create(ModalStartDocPage, {callback: this.onAckModal, order: this.order});
+        modal.present();
+      }
+    }
+    this.order.GPSCOORDINATES = '10.000000,11.000000'
     this.order.STARTDATE = new Date() 
     this.order.FINISHDATE = new Date() 
     this.order.STARTTIME = moment(new Date()).format('HHmmss')

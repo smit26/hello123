@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    
+    <ion-title>Safety Document</ion-title>
+    
+  </ion-navbar>
+
+</ion-header >
+
+
+<ion-content padding>
+
+  <pdf-viewer [src]="pdfUrl" 
+  [page]="page" 
+  [original-size]="false"
+  style="display: block;" width="200%">
+  </pdf-viewer> 
+  <p> By clicking the button below, you agree that you have read the document. </p>
+
+  <button ion-button (click) = "Accepted()" icon-start block class = "iconsize" ><ion-icon name="cloud-done"></ion-icon> I Accept </button>
+
+</ion-content>
