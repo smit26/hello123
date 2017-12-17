@@ -144,9 +144,10 @@ export class DataProvider {
       console.log(tokens)
       const token = tokens.json().tokens.idToken.jwtToken
       localStorage.setItem('token', token)
+      console.log('token: ', token)
       this.headers.delete('Authorization')
       this.headers.append('Authorization', token)
-      this.api.post('refreshWorkOrders', {token: token, plannerGroup: 'P2G'}).subscribe(data => console.log(data))  
+      this.api.post('refreshWorkOrders', {token: token, plannerGroup: 'A1G'}).subscribe(data => console.log(data))  
     }, err => console.log(err))
   }
 
