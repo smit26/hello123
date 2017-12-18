@@ -40,20 +40,18 @@ export class WorkOrderPage {
   ionViewDidLoad() {
   }
 
-  onAckModal() {
+  onAckModal = (data) => {  
+    return new Promise((resolve, reject) =>{
+      if(data.isAck){
+        this.updateWOStart()
+        this.order.ACKNOWLEDGEMENT = 'XX'
+      }
+      this.order.isChanged = true;
+      resolve();
+    });
 
   }
-
-  startTracking() {
-    console.log('start tracking')
-    // this.order.GPSCOORDINATES = `${resp.coords.latitude.toFixed(6)},${resp.coords.longitude.toFixed(6)}`
-
-    if(this.order.ACTIVITYTYPE == 'FUL'){
-      if(this.order.documentUrl != ''){
-        let modal = this.modalCtrl.create(ModalStartDocPage, {callback: this.onAckModal, order: this.order});
-        modal.present();
-      }
-    }
+  updateWOStart(){
     this.order.GPSCOORDINATES = '10.000000,11.000000'
     this.order.STARTDATE = new Date() 
     this.order.FINISHDATE = new Date() 
@@ -61,6 +59,32 @@ export class WorkOrderPage {
     this.order.FINISHTIME = new Date()   
     delete this.order.photos
     this.data.updateWorkOrder(this.order)
+  }
+  
+
+  startTracking() {
+    console.log('start tracking')
+    // this.order.GPSCOORDINATES = `${resp.coords.latitude.toFixed(6)},${resp.coords.longitude.toFixed(6)}`
+
+    if(this.order.STARTTIME == '000000'){
+      //show modal
+      if(this.order.ACTIVITYTYPE == 'FUL'){
+        if(this.order.documentUrl != ''){
+          let modal = this.modalCtrl.create(ModalStartDocPage, {callback: this.onAckModal, order: this.order});
+          modal.present();
+        }
+      }
+      else{
+        this.updateWOStart();
+      }
+            
+    }
+    else{
+      //don't show modal
+      //Update Start Time
+      this.updateWOStart();
+    }
+    
     // this.geolocation.getCurrentPosition().then((resp) => {
     //   console.log('I have location')
     //   this.order.GPSCOORDINATES = `${resp.coords.latitude.toFixed(6)},${resp.coords.longitude.toFixed(6)}`
