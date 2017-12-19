@@ -1,13 +1,15 @@
 import { OperationCategoryPage } from './../operation-category/operation-category';
 import { DataProvider } from './../../providers/data/data';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController} from 'ionic-angular';
 import * as moment from 'moment'
 import { Geolocation } from '@ionic-native/geolocation';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import { ModalStartDocPage } from '../modal-start-doc/modal-start-doc'
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import { NotificationHistoryPage } from '../notification-history/notification-history'
+import { ModalCloseWoPage } from '../modal-close-wo/modal-close-wo'
 
 @IonicPage()
 @Component({
@@ -25,7 +27,11 @@ export class WorkOrderPage {
     mediaType: this.camera.MediaType.PICTURE,
   }
   public order: any = {}
-  constructor(public camera: Camera, public file: File, public data: DataProvider, public modalCtrl: ModalController, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
+  constructor(public camera: Camera, public file: File, 
+    public data: DataProvider, public modalCtrl: ModalController, 
+    public alertCtrl: AlertController, public navCtrl: NavController, 
+    public navParams: NavParams, public geolocation: Geolocation,
+    public loadingCtrl: LoadingController) {
     if(navParams.get("order")) {
       this.order = navParams.get("order");  
       if(this.order.GPSCOORDINATES.length > 0) {
@@ -98,6 +104,54 @@ export class WorkOrderPage {
     //  });
   }
 
+  onActivatePageFromFinishOrderModal = (data) => {
+    return new Promise((resolve, reject) => {
+      // do close here;
+      this.order.TOOLSRETURNED = data.toolsReturned ?  'XX' : ''
+      this.order.CNFPRODUCTION = data.confirmedForProduction ?  'XX' : ''
+      this.order.WACLEANEDUP = data.areaCleanedUp ?  'XX' : ''
+      this.order.REQUIREFOLLOWUP = data.requireFollowUp ?  'XX' : ''
+      this.order.ORDERCOMMENT = data.comment
+      this.order.SYSTEMSTATUS = 'TECO ' + this.order.SYSTEMSTATUS 
+      this.order.FINISHDATE = moment(new Date()).format('YYYY-MM-DD')
+      this.order.FINISHTIME = new Date()    
+      
+      // this.order.ENDTIME = moment(new Date()).format('HHmmSS')
+      
+      this.order.isChanged = true
+      this.data.updateWorkOrder(this.order)     
+      resolve();
+      
+    });
+  }
+
+
+  closeWorkOrder() {
+    const operations = this.order.OrderOperations.results
+    let isCompleted = true
+    for(let i = 0; i<operations.length; i++) {
+      if(!operations[i].STATE) {
+        isCompleted = false
+        break
+      }
+    } 
+    if(!isCompleted) {
+      this.showAlert()
+    } else {
+      let modal = this.modalCtrl.create(ModalCloseWoPage, {callback: this.onActivatePageFromFinishOrderModal, order: this.order});
+      modal.present();
+    }
+  }
+
+  showAlert() {
+    let alert = this.alertCtrl.create({
+      title: '',
+      subTitle: 'Cannot close, not all operations are completed!',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
   showOperations(order){
     if(order.STARTTIME == '000000') return this.showAlert2()
     this.navCtrl.push(OperationCategoryPage, { order: order });
@@ -136,6 +190,33 @@ export class WorkOrderPage {
     })
     .catch(err => console.log(err))
 
+  }
+
+  getNotifications() {
+    let loader: any     
+    loader = this.loadingCtrl.create({
+      content: "Loading breakdown history"
+    });
+    loader.present()
+    this.data.getOnlineNotifications(this.order.ORDERID)
+      .subscribe(notifications => {
+        this.navCtrl.push(NotificationHistoryPage,{title:'Breakdown History',selection: JSON.parse(notifications.json().body)});    
+        loader.dismiss()
+      }, err => {
+        loader.dismiss()
+        let alert = this.alertCtrl.create({
+          title: 'No breakdown history found',
+          buttons:[{
+            text: 'Ok',
+            handler: () =>{
+              this.navCtrl.push(WorkOrderPage, { order: this.order });
+            }
+          }]
+        })
+        alert.present();
+        
+        console.log(err)
+      })
   }
 
 

@@ -3,6 +3,8 @@ import { OperationDetailsPage } from './../pages/operation-details/operation-det
 import { OperationCategoryPage } from './../pages/operation-category/operation-category';
 import { WorkOrderPage } from './../pages/work-order/work-order';
 import { ModalStartDocPage } from './../pages/modal-start-doc/modal-start-doc';
+import { NotificationHistoryPage } from './../pages/notification-history/notification-history'
+import { ModalCloseWoPage } from './../pages/modal-close-wo/modal-close-wo'
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -53,7 +55,9 @@ export function createTranslateLoader(http: HttpClient) {
     OperationDetailsPage,
     OperationPage,
     ModalStartDocPage,
-    PdfViewerComponent
+    PdfViewerComponent,
+    NotificationHistoryPage,
+     ModalStartDocPage
   ],
   imports: [
     BrowserModule,
@@ -79,7 +83,9 @@ export function createTranslateLoader(http: HttpClient) {
     OperationCategoryPage,
     OperationDetailsPage,
     OperationPage,
-    ModalStartDocPage
+    ModalStartDocPage,
+    NotificationHistoryPage,
+     ModalStartDocPage
   ],
   providers: [
     Api,

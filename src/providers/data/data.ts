@@ -222,6 +222,13 @@ export class DataProvider {
     }) 
   }
 
+  getOnlineNotifications(orderId) {
+    let basicOptions:RequestOptionsArgs = {
+      headers: this.headers,
+    }
+    return this.http.get(`${this.baseUrl}/notifications?orderId=${orderId}`, basicOptions)   
+  }
+
   updateWorkOrder(wo) {
     console.log('update Wo' ,wo)
     wo.isChanged = true
