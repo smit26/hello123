@@ -5,6 +5,9 @@ import { WorkOrderPage } from './../pages/work-order/work-order';
 import { ModalStartDocPage } from './../pages/modal-start-doc/modal-start-doc';
 import { NotificationHistoryPage } from './../pages/notification-history/notification-history'
 import { ModalCloseWoPage } from './../pages/modal-close-wo/modal-close-wo'
+import { SupervisorDetailPage } from './../pages/supervisor-detail/supervisor-detail'
+import { SupervisorViewPage } from './../pages/supervisor-view/supervisor-view'
+
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -57,7 +60,9 @@ export function createTranslateLoader(http: HttpClient) {
     ModalStartDocPage,
     PdfViewerComponent,
     NotificationHistoryPage,
-     ModalStartDocPage
+    ModalStartDocPage,
+    SupervisorDetailPage,
+    SupervisorViewPage
   ],
   imports: [
     BrowserModule,
@@ -85,7 +90,9 @@ export function createTranslateLoader(http: HttpClient) {
     OperationPage,
     ModalStartDocPage,
     NotificationHistoryPage,
-     ModalStartDocPage
+    ModalStartDocPage,
+    SupervisorDetailPage,
+    SupervisorViewPage
   ],
   providers: [
     Api,

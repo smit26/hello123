@@ -222,6 +222,40 @@ export class DataProvider {
     }) 
   }
 
+  //copied from older offlin-data.ts
+  getOperationPhotos(operation, workOrder, ) {   
+    let maintenancePhotos = workOrder.maintenancePhotos           
+    let photoPromise
+    let photosPromises = []    
+    // create photo link, check if photo exists, if not then do download
+    const maint = maintenancePhotos.filter(photo => photo.maintPlanId == workOrder.MAINTPLAN) || []  
+    operation.maintenancePhotos = !! maint.length ? maint[0].photos : []
+    operation.maintenancePhotos = operation.maintenancePhotos.filter(photo => photo.operationId == operation.ACTIVITY)
+    operation.photoLinks = []
+    if(!operation.photos) operation.photos = []
+    operation.photos = workOrder.photos.filter(photo => photo.operationId == operation.ACTIVITY)
+    operation.photos = operation.photos.concat(operation.maintenancePhotos)     
+    operation.photos.map(photo => {
+      if(this.getNetworkStatus()) {
+        photoPromise = this.file.checkFile(this.file.dataDirectory, photo.name)
+          .then(success => operation.photoLinks.push(this.normalizeURL(this.file.dataDirectory) + photo.name))
+          .catch(err => {
+            this.getDownloadLink(photo.name).subscribe(response => {
+              operation.photoLinks.push(response.json().body) //all photos
+              this.downloadFile(response.json().body, photo.name)
+            })   
+          })
+      } else {
+        photoPromise = Promise.resolve(operation.photoLinks.push(this.normalizeURL(this.file.dataDirectory) + photo.name))              
+      }
+      photosPromises.push(photoPromise)
+    })
+    Promise.all(photosPromises).then(() => {
+      console.log('all operation photos are here')
+    })    
+  }
+
+
   getOnlineNotifications(orderId) {
     let basicOptions:RequestOptionsArgs = {
       headers: this.headers,

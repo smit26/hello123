@@ -2,7 +2,7 @@ import { DataProvider } from './../../providers/data/data';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
-
+import { SupervisorDetailPage } from '../supervisor-detail/supervisor-detail'
 
 
 @IonicPage()
