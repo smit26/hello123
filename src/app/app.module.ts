@@ -62,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationHistoryPage,
     ModalStartDocPage,
     SupervisorDetailPage,
-    SupervisorViewPage
+    SupervisorViewPage,
+    ModalCloseWoPage
   ],
   imports: [
     BrowserModule,
@@ -91,6 +92,7 @@ export function createTranslateLoader(http: HttpClient) {
     ModalStartDocPage,
     NotificationHistoryPage,
     ModalStartDocPage,
+    ModalCloseWoPage,
     SupervisorDetailPage,
     SupervisorViewPage
   ],
